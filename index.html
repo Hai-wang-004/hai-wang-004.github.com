@@ -29,8 +29,165 @@
         </div>
         
         <div id="content">
-            <div id="thank-you" class="content-title">欢迎您来到Hai-wang-004的博客</div>
-            <p>Sorry!  一切还在建设中...</p>
+            <div id="thank-you" class="content-title">关于GO语言守护协程用法的基本思路</div>
+            <p><div><br/>
+&nbsp;
+<div>&nbsp;先看代码：</div>
+
+<div>
+<div>&nbsp;</div>
+
+<div style="background:#ffffff;padding:5px 5px 10px;color:#4d4d4c">
+<div style="height:14px;color:#4d4d4c"><span style="color:#8959a8">package</span>&nbsp;<span style="color:#4d4d4c">main</span></div>
+
+<div style="height:14px;color:#4d4d4c"></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#8959a8">import</span>&nbsp;<span style="color:#4d4d4c">(</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#718c00">"fmt"</span></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">)</span></div>
+
+<div style="height:14px;color:#4d4d4c"></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">func</span>&nbsp;<span style="color:#4d4d4c">main</span><span style="color:#4d4d4c">(</span><span style="color:#4d4d4c">)</span>&nbsp;<span style="color:#4d4d4c">{</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">gorchan</span><span style="color:#4d4d4c">(</span><span style="color:#4d4d4c">)</span></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">}</span></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">func</span>&nbsp;<span style="color:#4d4d4c">testchan</span><span style="color:#4d4d4c">(</span><span style="color:#4d4d4c">s</span>&nbsp;<span style="color:#4d4d4c">chan</span>&nbsp;<span style="color:#4d4d4c">int</span><span style="color:#4d4d4c">,</span>&nbsp;<span style="color:#4d4d4c">data</span>&nbsp;<span style="color:#4d4d4c">int</span><span style="color:#4d4d4c">)</span>&nbsp;<span style="color:#4d4d4c">{</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8959a8">for</span>&nbsp;<span style="color:#4d4d4c">{</span></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8959a8">if</span>&nbsp;<span style="color:#4d4d4c">data</span><span style="color:#3e999f">%</span><span style="color:#f5871f">3</span>&nbsp;<span style="color:#3e999f">==</span>&nbsp;<span style="color:#f5871f">0</span>&nbsp;<span style="color:#4d4d4c">{</span></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">s</span>&nbsp;<span style="color:#3e999f">&lt;-</span>&nbsp;<span style="color:#f5871f">0</span></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8959a8">break</span></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">}</span></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">s</span>&nbsp;<span style="color:#3e999f">&lt;-</span>&nbsp;<span style="color:#4d4d4c">data</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">}</span></div>
+
+<div style="height:14px;color:#4d4d4c"></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">}</span></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">func</span>&nbsp;<span style="color:#4d4d4c">gorchan</span><span style="color:#4d4d4c">(</span><span style="color:#4d4d4c">)</span>&nbsp;<span style="color:#4d4d4c">{</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">m</span>&nbsp;<span style="color:#4d4d4c">:</span><span style="color:#3e999f">=</span>&nbsp;<span style="color:#4d4d4c">make</span><span style="color:#4d4d4c">(</span><span style="color:#4d4d4c">map</span><span style="color:#4d4d4c">[</span><span style="color:#4d4d4c">int</span><span style="color:#4d4d4c">]</span><span style="color:#4d4d4c">chan</span>&nbsp;<span style="color:#4d4d4c">int</span><span style="color:#4d4d4c">)</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8959a8">for</span>&nbsp;<span style="color:#4d4d4c">i</span>&nbsp;<span style="color:#4d4d4c">:</span><span style="color:#3e999f">=</span>&nbsp;<span style="color:#f5871f">0</span><span style="color:#4d4d4c">;</span>&nbsp;<span style="color:#4d4d4c">i</span>&nbsp;<span style="color:#3e999f">&lt;=</span>&nbsp;<span style="color:#f5871f">9</span><span style="color:#4d4d4c">;</span>&nbsp;<span style="color:#4d4d4c">i</span><span style="color:#3e999f">++</span>&nbsp;<span style="color:#4d4d4c">{</span></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">sess</span>&nbsp;<span style="color:#4d4d4c">:</span><span style="color:#3e999f">=</span>&nbsp;<span style="color:#4d4d4c">make</span><span style="color:#4d4d4c">(</span><span style="color:#4d4d4c">chan</span>&nbsp;<span style="color:#4d4d4c">int</span><span style="color:#4d4d4c">)</span></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">go</span>&nbsp;<span style="color:#4d4d4c">testchan</span><span style="color:#4d4d4c">(</span><span style="color:#4d4d4c">sess</span><span style="color:#4d4d4c">,</span>&nbsp;<span style="color:#4d4d4c">i</span><span style="color:#4d4d4c">)</span></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">str1</span>&nbsp;<span style="color:#4d4d4c">:</span><span style="color:#3e999f">=</span>&nbsp;<span style="color:#3e999f">&lt;-</span><span style="color:#4d4d4c">sess</span></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">m</span><span style="color:#4d4d4c">[</span><span style="color:#4d4d4c">i</span><span style="color:#4d4d4c">]</span>&nbsp;<span style="color:#3e999f">=</span>&nbsp;<span style="color:#4d4d4c">sess</span></div>
+
+<div style="height:14px;color:#4d4d4c"></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">fmt</span><span style="color:#4d4d4c">.</span><span style="color:#4d4d4c">Println</span><span style="color:#4d4d4c">(</span><span style="color:#718c00">"string&nbsp;out&nbsp;to&nbsp;is:"</span><span style="color:#4d4d4c">,</span>&nbsp;<span style="color:#4d4d4c">str1</span><span style="color:#4d4d4c">)</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">}</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">str5</span>&nbsp;<span style="color:#4d4d4c">:</span><span style="color:#3e999f">=</span>&nbsp;<span style="color:#3e999f">&lt;-</span><span style="color:#4d4d4c">m</span><span style="color:#4d4d4c">[</span><span style="color:#f5871f">5</span><span style="color:#4d4d4c">]</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">fmt</span><span style="color:#4d4d4c">.</span><span style="color:#4d4d4c">Println</span><span style="color:#4d4d4c">(</span><span style="color:#718c00">"str5&nbsp;is:"</span><span style="color:#4d4d4c">,</span>&nbsp;<span style="color:#4d4d4c">str5</span><span style="color:#4d4d4c">)</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">str0</span>&nbsp;<span style="color:#4d4d4c">:</span><span style="color:#3e999f">=</span>&nbsp;<span style="color:#3e999f">&lt;-</span><span style="color:#4d4d4c">m</span><span style="color:#4d4d4c">[</span><span style="color:#f5871f">0</span><span style="color:#4d4d4c">]</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">fmt</span><span style="color:#4d4d4c">.</span><span style="color:#4d4d4c">Println</span><span style="color:#4d4d4c">(</span><span style="color:#718c00">"str0&nbsp;is:"</span><span style="color:#4d4d4c">,</span>&nbsp;<span style="color:#4d4d4c">str0</span><span style="color:#4d4d4c">)</span></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">}</span></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#8e908c">//OUTPUT:</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">string</span>&nbsp;<span style="color:#4d4d4c">out</span>&nbsp;<span style="color:#4d4d4c">to</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="color:#f5871f">0</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">string</span>&nbsp;<span style="color:#4d4d4c">out</span>&nbsp;<span style="color:#4d4d4c">to</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="color:#f5871f">1</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">string</span>&nbsp;<span style="color:#4d4d4c">out</span>&nbsp;<span style="color:#4d4d4c">to</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="color:#f5871f">2</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">string</span>&nbsp;<span style="color:#4d4d4c">out</span>&nbsp;<span style="color:#4d4d4c">to</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="color:#f5871f">0</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">string</span>&nbsp;<span style="color:#4d4d4c">out</span>&nbsp;<span style="color:#4d4d4c">to</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="color:#f5871f">4</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">string</span>&nbsp;<span style="color:#4d4d4c">out</span>&nbsp;<span style="color:#4d4d4c">to</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="color:#f5871f">5</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">string</span>&nbsp;<span style="color:#4d4d4c">out</span>&nbsp;<span style="color:#4d4d4c">to</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="color:#f5871f">0</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">string</span>&nbsp;<span style="color:#4d4d4c">out</span>&nbsp;<span style="color:#4d4d4c">to</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="color:#f5871f">7</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">string</span>&nbsp;<span style="color:#4d4d4c">out</span>&nbsp;<span style="color:#4d4d4c">to</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="color:#f5871f">8</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">string</span>&nbsp;<span style="color:#4d4d4c">out</span>&nbsp;<span style="color:#4d4d4c">to</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="color:#f5871f">0</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">str5</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="color:#f5871f">5</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">fatal</span>&nbsp;<span style="color:#4d4d4c">error</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="color:#4d4d4c">all</span>&nbsp;<span style="color:#4d4d4c">goroutines</span>&nbsp;<span style="color:#4d4d4c">are</span>&nbsp;<span style="color:#4d4d4c">asleep</span>&nbsp;<span style="color:#3e999f">-</span>&nbsp;<span style="color:#4d4d4c">deadlock</span><span style="color:#3e999f">!</span></div>
+</div>
+
+<div>&nbsp;</div>
+<br/>
+</div>
+
+<div><span>&nbsp;这段代码有2个重点：<br/>
+<span>一 for保障协程在进程退出前能一直运行:<br/>
+&nbsp; &nbsp; for {} &nbsp;其实是for ; ;{}的简写 &nbsp;&nbsp;<br/>
+&nbsp; &nbsp; 普通的for是for i:=0;i&lt;n;i++{},如果没有这个条件，即for ; ;{}则for是死循环&nbsp;,如果要跳出死循环，用break。<br/>
+<span>&nbsp; &nbsp; 因此可见上面0对应的&nbsp;</span></span></span><span>协程取值出现错误，就是因为</span><span>协程已经结束了。<br/>
+<span>二 记录请求处理的</span></span><span>协程:</span><span>&nbsp;<br/>
+<span>&nbsp; &nbsp; 这里用来最简单的方法：用一个map来映射每一次for对应处理的</span></span><span>协程，如果我们在最后打印m这个MAP，则显示为：</span><span>&nbsp;<br/>
+<span></span></span>
+<div>&nbsp;</div>
+
+<div style="background:#ffffff;padding:5px 5px 10px;color:#4d4d4c">
+<div style="height:14px;color:#4d4d4c"><span style="color:#8959a8">map</span><span style="color:#4d4d4c">[</span><span style="color:#f5871f">2</span><span style="color:#4d4d4c">:</span><span style="color:#f5871f">0xc082028240</span>&nbsp;<span style="color:#f5871f">3</span><span style="color:#4d4d4c">:</span><span style="color:#f5871f">0xc0820282a0</span>&nbsp;<span style="color:#f5871f">4</span><span style="color:#4d4d4c">:</span><span style="color:#f5871f">0xc082028300</span>&nbsp;<span style="color:#f5871f">7</span><span style="color:#4d4d4c">:</span><span style="color:#f5871f">0xc082028420</span>&nbsp;<span style="color:#f5871f">9</span><span style="color:#4d4d4c">:</span><span style="color:#f5871f">0xc0820284e0</span>&nbsp;<span style="color:#f5871f">0</span><span style="color:#4d4d4c">:</span><span style="color:#f5871f">0xc082028180</span>&nbsp;<span style="color:#f5871f">1</span><span style="color:#4d4d4c">:</span><span style="color:#f5871f">0xc0820281e0</span>&nbsp;<span style="color:#f5871f">5</span><span style="color:#4d4d4c">:</span><span style="color:#f5871f">0xc082028360</span>&nbsp;<span style="color:#f5871f">6</span><span style="color:#4d4d4c">:</span><span style="color:#f5871f">0xc0820283c0</span>&nbsp;<span style="color:#f5871f">8</span><span style="color:#4d4d4c">:</span><span style="color:#f5871f">0xc082028480</span><span style="color:#4d4d4c">]</span></div>
+</div>
+
+<div>&nbsp;</div>
+<span><span>&nbsp; &nbsp;&nbsp;可以明显看出，每一个信道的指向完全不一样。&nbsp;<br/>
+<span><br/>
+由上面的代码原理，可以理解GO作为web服务器，处理每一条请求的思路。<br/>
+另外，GO的time包提供一个Ticker&nbsp;的结构体，会周期性的向它传递当前时间，可以利用该周期性，比如：<br/>
+<span></span></span></span></span>
+<div>&nbsp;</div>
+
+<div style="background:#ffffff;padding:5px 5px 10px;color:#4d4d4c">
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">time</span><span style="color:#4d4d4c">.</span><span style="color:#4d4d4c">NewTicker</span><span style="color:#4d4d4c">(</span><span style="color:#f5871f">1</span><span style="color:#3e999f">*</span><span style="color:#4d4d4c">time</span><span style="color:#4d4d4c">.</span><span style="color:#4d4d4c">Secend</span><span style="color:#4d4d4c">)</span></div>
+</div>
+
+<div>&nbsp;</div>
+<span><span><span><span>就可以每隔一秒探查一次，然后使用</span></span></span></span>
+<div>&nbsp;</div>
+
+<div style="background:#ffffff;padding:5px 5px 10px;color:#4d4d4c">
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">t:=time</span><span style="color:#4d4d4c">.</span><span style="color:#4d4d4c">AfterFunc</span><span style="color:#4d4d4c">(</span><span style="color:#f5871f">1</span><span style="color:#3e999f">*</span><span style="color:#4d4d4c">time</span><span style="color:#4d4d4c">.</span><span style="color:#4d4d4c">Secend</span><span style="color:#4d4d4c">,</span><span style="color:#4d4d4c">CallFunc</span><span style="color:#4d4d4c">)</span></div>
+</div>
+
+<div>&nbsp;</div>
+<span><span><span><span>来跟踪协程的执行情况，直到返回执行结果，用<br/>
+</span></span></span></span>
+<div>&nbsp;</div>
+
+<div style="background:#ffffff;padding:5px 5px 10px;color:#4d4d4c">
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">time</span><span style="color:#4d4d4c">.</span><span style="color:#4d4d4c">Stop</span><span style="color:#4d4d4c">(</span><span style="color:#4d4d4c">t</span><span style="color:#4d4d4c">)</span></div>
+</div>
+
+<div>&nbsp;</div>
+<span><span><span><span>&nbsp;来结束跟踪。<br/>
+<span><br/>
+这样，一个守护型的GO协程达到了设想的结果。&nbsp;</span></span></span></span></span></div>
+</div>
+</p>
             
     </div>
 </body>
