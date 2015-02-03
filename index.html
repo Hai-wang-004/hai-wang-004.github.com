@@ -29,6 +29,237 @@
         </div>
         
         <div id="content">
+        <div id="thank-you" class="content-title">GO语言http包路由规则简析</div>
+        <p>
+        	<div>&nbsp;贴代码：
+<div>&nbsp;</div>
+
+<div style="padding:5px 5px 10px">
+<div style="height:14px"><span style="color:#930f80">package</span>&nbsp;<span>main</span></div>
+
+<div style="height:14px"></div>
+
+<div style="height:14px"><span style="color:#930f80">import</span>&nbsp;<span>(</span></div>
+
+<div style="height:14px">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1a1aa6">"fmt"</span></div>
+
+<div style="height:14px">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1a1aa6">"io/ioutil"</span></div>
+
+<div style="height:14px">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1a1aa6">"net/http"</span></div>
+
+<div style="height:14px">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1a1aa6">"os"</span></div>
+
+<div style="height:14px">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1a1aa6">"strings"</span></div>
+
+<div style="height:14px"><span>)</span></div>
+
+<div style="height:14px"></div>
+
+<div style="height:14px"><span style="color:#930f80">type</span>&nbsp;<span>MyMux</span>&nbsp;<span style="color:#930f80">struct</span>&nbsp;<span>{</span></div>
+
+<div style="height:14px"><span>}</span></div>
+
+<div style="height:14px"><span style="color:#930f80">type</span>&nbsp;<span>Handlerfuncs</span>&nbsp;<span style="color:#930f80">func</span><span>(</span><span>w</span>&nbsp;<span>http</span><span>.</span><span>ResponseWriter</span><span>,</span>&nbsp;<span>r</span>&nbsp;<span style="color:#687687">*</span><span>http</span><span>.</span><span>Request</span><span>)</span></div>
+
+<div style="height:14px"></div>
+
+<div style="height:14px"><span style="color:#236e24">//<span style="width:13.21875px;color:#236e24">路</span><span style="width:13.21875px;color:#236e24">由</span><span style="width:13.21875px;color:#236e24">定</span><span style="width:13.21875px;color:#236e24">义</span>URL<span style="width:13.21875px;color:#236e24">映</span><span style="width:13.21875px;color:#236e24">射</span><span style="width:13.21875px;color:#236e24">的</span><span style="width:13.21875px;color:#236e24">方</span><span style="width:13.21875px;color:#236e24">法</span><span style="width:13.21875px;color:#236e24">，</span><span style="width:13.21875px;color:#236e24">可</span><span style="width:13.21875px;color:#236e24">以</span><span style="width:13.21875px;color:#236e24">随</span><span style="width:13.21875px;color:#236e24">意</span><span style="width:13.21875px;color:#236e24">扩</span><span style="width:13.21875px;color:#236e24">展</span><span style="width:13.21875px;color:#236e24">，</span><span style="width:13.21875px;color:#236e24">比</span><span style="width:13.21875px;color:#236e24">如</span>beego<span style="width:13.21875px;color:#236e24">框</span><span style="width:13.21875px;color:#236e24">架</span><span style="width:13.21875px;color:#236e24">里</span><span style="width:13.21875px;color:#236e24">的</span><span style="width:13.21875px;color:#236e24">路</span><span style="width:13.21875px;color:#236e24">由</span><span style="width:13.21875px;color:#236e24">，</span><span style="width:13.21875px;color:#236e24">这</span><span style="width:13.21875px;color:#236e24">里</span><span style="width:13.21875px;color:#236e24">只</span><span style="width:13.21875px;color:#236e24">做</span><span style="width:13.21875px;color:#236e24">个</span><span style="width:13.21875px;color:#236e24">例</span><span style="width:13.21875px;color:#236e24">子</span><span style="width:13.21875px;color:#236e24">验</span><span style="width:13.21875px;color:#236e24">证</span></span></div>
+
+<div style="height:14px"><span style="color:#930f80">var</span>&nbsp;<span>handlemaps</span>&nbsp;<span style="color:#930f80">map</span><span>[</span><span>string</span><span>]</span><span>Handlerfuncs</span>&nbsp;<span style="color:#687687">=</span>&nbsp;<span style="color:#930f80">map</span><span>[</span><span>string</span><span>]</span><span>Handlerfuncs</span><span>{</span></div>
+
+<div style="height:14px">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1a1aa6">"/aaa"</span><span>:</span>&nbsp;<span>server1</span><span>,</span></div>
+
+<div style="height:14px">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1a1aa6">"/bbb"</span><span>:</span>&nbsp;<span>server2</span><span>,</span></div>
+
+<div style="height:14px">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1a1aa6">"/ccc"</span><span>:</span>&nbsp;<span>server3</span><span>,</span></div>
+
+<div style="height:14px"><span>}</span></div>
+
+<div style="height:14px"></div>
+
+<div style="height:14px"><span style="color:#236e24">//<span style="width:13.21875px;color:#236e24">路</span><span style="width:13.21875px;color:#236e24">由</span><span style="width:13.21875px;color:#236e24">定</span><span style="width:13.21875px;color:#236e24">义</span><span style="width:13.21875px;color:#236e24">静</span><span style="width:13.21875px;color:#236e24">态</span><span style="width:13.21875px;color:#236e24">文</span><span style="width:13.21875px;color:#236e24">件</span><span style="width:13.21875px;color:#236e24">路</span><span style="width:13.21875px;color:#236e24">径</span><span style="width:13.21875px;color:#236e24">，</span><span style="width:13.21875px;color:#236e24">在</span><span style="width:13.21875px;color:#236e24">该</span><span style="width:13.21875px;color:#236e24">路</span><span style="width:13.21875px;color:#236e24">径</span><span style="width:13.21875px;color:#236e24">下</span><span style="width:13.21875px;color:#236e24">的</span><span style="width:13.21875px;color:#236e24">文</span><span style="width:13.21875px;color:#236e24">件</span><span style="width:13.21875px;color:#236e24">都</span><span style="width:13.21875px;color:#236e24">会</span><span style="width:13.21875px;color:#236e24">作</span><span style="width:13.21875px;color:#236e24">为</span><span style="width:13.21875px;color:#236e24">静</span><span style="width:13.21875px;color:#236e24">态</span><span style="width:13.21875px;color:#236e24">文</span><span style="width:13.21875px;color:#236e24">件</span><span style="width:13.21875px;color:#236e24">输</span><span style="width:13.21875px;color:#236e24">出</span></span></div>
+
+<div style="height:14px"><span style="color:#930f80">var</span>&nbsp;<span>staticPath</span>&nbsp;<span style="color:#930f80">map</span><span>[</span><span>string</span><span>]</span><span>string</span>&nbsp;<span style="color:#687687">=</span>&nbsp;<span style="color:#930f80">map</span><span>[</span><span>string</span><span>]</span><span>string</span><span>{</span></div>
+
+<div style="height:14px">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1a1aa6">"/css"</span><span>:</span>&nbsp;<span style="color:#1a1aa6">"/css"</span><span>,</span></div>
+
+<div style="height:14px">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1a1aa6">"/js"</span><span>:</span>&nbsp;&nbsp;<span style="color:#1a1aa6">"/js"</span><span>,</span></div>
+
+<div style="height:14px">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#1a1aa6">"/img"</span><span>:</span>&nbsp;<span style="color:#1a1aa6">"/img"</span><span>,</span></div>
+
+<div style="height:14px"><span>}</span></div>
+
+<div style="height:14px"></div>
+
+<div style="height:14px"><span style="color:#930f80">func</span>&nbsp;<span>(</span><span>p</span>&nbsp;<span style="color:#687687">*</span><span>MyMux</span><span>)</span>&nbsp;<span>ServeHTTP</span><span>(</span><span>w</span>&nbsp;<span>http</span><span>.</span><span>ResponseWriter</span><span>,</span>&nbsp;<span>r</span>&nbsp;<span style="color:#687687">*</span><span>http</span><span>.</span><span>Request</span><span>)</span>&nbsp;<span>{</span></div>
+
+<div style="height:14px">&nbsp;&nbsp;&nbsp;&nbsp;<span>fmt</span><span>.</span><span>Println</span><span>(</span><span style="color:#1a1aa6">"url&nbsp;is&nbsp;"</span><span>,</span>&nbsp;<span>r</span><span>.</span><span>URL</span><span>.</span><span>Path</span><span>)</span></div>
+
+<div style="height:14px">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#930f80">if</span>&nbsp;<span>r</span><span>.</span><span>URL</span><span>.</span><span>Path</span>&nbsp;<span style="color:#687687">==</span>&nbsp;<span style="color:#1a1aa6">"/"</span>&nbsp;<span>{</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>server1</span><span>(</span><span>w</span><span>,</span>&nbsp;<span>r</span><span>)</span></div>
+
+<div style="height:14px"></div>
+
+<div style="height:14px">&nbsp;&nbsp;&nbsp;&nbsp;<span>}</span>&nbsp;<span style="color:#930f80">else</span>&nbsp;<span style="color:#930f80">if</span>&nbsp;<span>r</span><span>.</span><span>URL</span><span>.</span><span>Path</span>&nbsp;<span style="color:#687687">==</span>&nbsp;<span style="color:#1a1aa6">"/bbb"</span>&nbsp;<span>{</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>server2</span><span>(</span><span>w</span><span>,</span>&nbsp;<span>r</span><span>)</span></div>
+
+<div style="height:14px"></div>
+
+<div style="height:14px">&nbsp;&nbsp;&nbsp;&nbsp;<span>}</span>&nbsp;<span style="color:#930f80">else</span>&nbsp;<span style="color:#930f80">if</span>&nbsp;<span>handlemaps</span><span>[</span><span>r</span><span>.</span><span>URL</span><span>.</span><span>Path</span><span>]</span>&nbsp;<span style="color:#687687">!=</span>&nbsp;<span style="color:#585cf6">nil</span>&nbsp;<span>{</span>&nbsp;<span style="color:#236e24">//<span style="width:13.21875px;color:#236e24">在</span><span style="width:13.21875px;color:#236e24">路</span><span style="width:13.21875px;color:#236e24">由</span><span style="width:13.21875px;color:#236e24">规</span><span style="width:13.21875px;color:#236e24">则</span><span style="width:13.21875px;color:#236e24">里</span><span style="width:13.21875px;color:#236e24">，</span><span style="width:13.21875px;color:#236e24">会</span><span style="width:13.21875px;color:#236e24">调</span><span style="width:13.21875px;color:#236e24">用</span><span style="width:13.21875px;color:#236e24">路</span><span style="width:13.21875px;color:#236e24">由</span><span style="width:13.21875px;color:#236e24">规</span><span style="width:13.21875px;color:#236e24">则</span><span style="width:13.21875px;color:#236e24">定</span><span style="width:13.21875px;color:#236e24">义</span><span style="width:13.21875px;color:#236e24">的</span><span style="width:13.21875px;color:#236e24">函</span><span style="width:13.21875px;color:#236e24">数</span></span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>handlemaps</span><span>[</span><span>r</span><span>.</span><span>URL</span><span>.</span><span>Path</span><span>]</span><span>(</span><span>w</span><span>,</span>&nbsp;<span>r</span><span>)</span></div>
+
+<div style="height:14px"></div>
+
+<div style="height:14px">&nbsp;&nbsp;&nbsp;&nbsp;<span>}</span>&nbsp;<span style="color:#930f80">else</span>&nbsp;<span>{</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#930f80">var</span>&nbsp;<span>headStr</span>&nbsp;<span>string</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#930f80">var</span>&nbsp;<span>i</span>&nbsp;<span>int</span>&nbsp;<span style="color:#687687">=</span>&nbsp;<span style="color:#0000cd">0</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#930f80">for</span>&nbsp;<span>k</span><span>,</span>&nbsp;<span>_</span>&nbsp;<span>:</span><span style="color:#687687">=</span>&nbsp;<span>range</span>&nbsp;<span>staticPath</span>&nbsp;<span>{</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>headStr</span>&nbsp;<span style="color:#687687">=</span>&nbsp;<span>r</span><span>.</span><span>URL</span><span>.</span><span>Path</span><span>[</span><span>:</span><span>len</span><span>(</span><span>k</span><span>)]</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>path</span>&nbsp;<span>:</span><span style="color:#687687">=</span>&nbsp;<span>r</span><span>.</span><span>URL</span><span>.</span><span>Path</span></div>
+
+<div style="height:14px"></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#930f80">if</span>&nbsp;<span>strings</span><span>.</span><span>ToLower</span><span>(</span><span>headStr</span><span>)</span>&nbsp;<span style="color:#687687">==</span>&nbsp;<span>k</span>&nbsp;<span>{</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>fmt</span><span>.</span><span>Println</span><span>(</span><span style="color:#1a1aa6">"head&nbsp;is:"</span><span>,</span>&nbsp;<span>headStr</span><span>)</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>request_type</span>&nbsp;<span>:</span><span style="color:#687687">=</span>&nbsp;<span>path</span><span>[</span><span>strings</span><span>.</span><span>LastIndex</span><span>(</span><span>path</span><span>,</span>&nbsp;<span style="color:#1a1aa6">"."</span><span>)</span><span>:</span><span>]</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#930f80">switch</span>&nbsp;<span>request_type</span>&nbsp;<span>{</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#930f80">case</span>&nbsp;<span style="color:#1a1aa6">".css"</span><span>:</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>w</span><span>.</span><span>Header</span><span>(</span><span>)</span><span>.</span><span>Set</span><span>(</span><span style="color:#1a1aa6">"content-type"</span><span>,</span>&nbsp;<span style="color:#1a1aa6">"text/css"</span><span>)</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>i</span><span style="color:#687687">++</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#930f80">case</span>&nbsp;<span style="color:#1a1aa6">".js"</span><span>:</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>w</span><span>.</span><span>Header</span><span>(</span><span>)</span><span>.</span><span>Set</span><span>(</span><span style="color:#1a1aa6">"content-type"</span><span>,</span>&nbsp;<span style="color:#1a1aa6">"text/javascript"</span><span>)</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>i</span><span style="color:#687687">++</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#930f80">case</span>&nbsp;<span style="color:#1a1aa6">".png"</span><span>:</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>w</span><span>.</span><span>Header</span><span>(</span><span>)</span><span>.</span><span>Set</span><span>(</span><span style="color:#1a1aa6">"content-type"</span><span>,</span>&nbsp;<span style="color:#1a1aa6">"image/png"</span><span>)</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>i</span><span style="color:#687687">++</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#930f80">case</span>&nbsp;<span style="color:#1a1aa6">".jpg"</span><span>:</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#930f80">case</span>&nbsp;<span style="color:#1a1aa6">".jpeg"</span><span>:</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>w</span><span>.</span><span>Header</span><span>(</span><span>)</span><span>.</span><span>Set</span><span>(</span><span style="color:#1a1aa6">"content-type"</span><span>,</span>&nbsp;<span style="color:#1a1aa6">"image/jpeg"</span><span>)</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>i</span><span style="color:#687687">++</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#930f80">case</span>&nbsp;<span style="color:#1a1aa6">".gif"</span><span>:</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>w</span><span>.</span><span>Header</span><span>(</span><span>)</span><span>.</span><span>Set</span><span>(</span><span style="color:#1a1aa6">"content-type"</span><span>,</span>&nbsp;<span style="color:#1a1aa6">"image/gif"</span><span>)</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>i</span><span style="color:#687687">++</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#930f80">default</span><span>:</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>}</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>fin</span><span>,</span>&nbsp;<span>err</span>&nbsp;<span>:</span><span style="color:#687687">=</span>&nbsp;<span>os</span><span>.</span><span>Open</span><span>(</span><span style="color:#1a1aa6">"."</span>&nbsp;<span style="color:#687687">+</span>&nbsp;<span>path</span><span>)</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#930f80">defer</span>&nbsp;<span>fin</span><span>.</span><span>Close</span><span>(</span><span>)</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#930f80">if</span>&nbsp;<span>err</span>&nbsp;<span style="color:#687687">!=</span>&nbsp;<span style="color:#585cf6">nil</span>&nbsp;<span>{</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>fmt</span><span>.</span><span>Println</span><span>(</span><span style="color:#1a1aa6">"static&nbsp;resource:"</span><span>,</span>&nbsp;<span>err</span><span>)</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>}</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>fd</span><span>,</span>&nbsp;<span>_</span>&nbsp;<span>:</span><span style="color:#687687">=</span>&nbsp;<span>ioutil</span><span>.</span><span>ReadAll</span><span>(</span><span>fin</span><span>)</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>w</span><span>.</span><span>Write</span><span>(</span><span>fd</span><span>)</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#930f80">return</span></div>
+
+<div style="height:14px"></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>}</span></div>
+
+<div style="height:14px"></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>}</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#930f80">if</span>&nbsp;<span>i</span>&nbsp;<span style="color:#687687">==</span>&nbsp;<span style="color:#0000cd">0</span>&nbsp;<span>{</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>http</span><span>.</span><span>NotFound</span><span>(</span><span>w</span><span>,</span>&nbsp;<span>r</span><span>)</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#930f80">return</span></div>
+
+<div style="height:14px"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>}</span></div>
+
+<div style="height:14px"></div>
+
+<div style="height:14px">&nbsp;&nbsp;&nbsp;&nbsp;<span>}</span></div>
+
+<div style="height:14px">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#930f80">return</span></div>
+
+<div style="height:14px"><span>}</span></div>
+
+<div style="height:14px"><span style="color:#930f80">func</span>&nbsp;<span>server1</span><span>(</span><span>w</span>&nbsp;<span>http</span><span>.</span><span>ResponseWriter</span><span>,</span>&nbsp;<span>r</span>&nbsp;<span style="color:#687687">*</span><span>http</span><span>.</span><span>Request</span><span>)</span>&nbsp;<span>{</span></div>
+
+<div style="height:14px">&nbsp;&nbsp;&nbsp;&nbsp;<span>fmt</span><span>.</span><span>Println</span><span>(</span><span style="color:#1a1aa6">"is&nbsp;aaaa"</span><span>)</span></div>
+
+<div style="height:14px">&nbsp;&nbsp;&nbsp;&nbsp;<span>fmt</span><span>.</span><span>Fprintf</span><span>(</span><span>w</span><span>,</span>&nbsp;<span style="color:#1a1aa6">"tests"</span><span>)</span></div>
+
+<div style="height:14px"><span>}</span></div>
+
+<div style="height:14px"><span style="color:#930f80">func</span>&nbsp;<span>server2</span><span>(</span><span>w</span>&nbsp;<span>http</span><span>.</span><span>ResponseWriter</span><span>,</span>&nbsp;<span>r</span>&nbsp;<span style="color:#687687">*</span><span>http</span><span>.</span><span>Request</span><span>)</span>&nbsp;<span>{</span></div>
+
+<div style="height:14px">&nbsp;&nbsp;&nbsp;&nbsp;<span>fmt</span><span>.</span><span>Fprintf</span><span>(</span><span>w</span><span>,</span>&nbsp;<span style="color:#1a1aa6">"111111"</span><span>)</span></div>
+
+<div style="height:14px"><span>}</span></div>
+
+<div style="height:14px"><span style="color:#930f80">func</span>&nbsp;<span>server3</span><span>(</span><span>w</span>&nbsp;<span>http</span><span>.</span><span>ResponseWriter</span><span>,</span>&nbsp;<span>r</span>&nbsp;<span style="color:#687687">*</span><span>http</span><span>.</span><span>Request</span><span>)</span>&nbsp;<span>{</span></div>
+
+<div style="height:14px">&nbsp;&nbsp;&nbsp;&nbsp;<span>fmt</span><span>.</span><span>Fprintf</span><span>(</span><span>w</span><span>,</span>&nbsp;<span style="color:#1a1aa6">"33333"</span><span>)</span></div>
+
+<div style="height:14px"><span>}</span></div>
+
+<div style="height:14px"></div>
+
+<div style="height:14px"><span style="color:#930f80">func</span>&nbsp;<span>main</span><span>(</span><span>)</span>&nbsp;<span>{</span></div>
+
+<div style="height:14px">&nbsp;&nbsp;&nbsp;&nbsp;<span>mux</span>&nbsp;<span>:</span><span style="color:#687687">=</span>&nbsp;<span style="color:#687687">&amp;</span><span>MyMux</span><span>{</span><span>}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#236e24">//<span style="width:13.21875px;color:#236e24">实</span><span style="width:13.21875px;color:#236e24">例</span><span style="width:13.21875px;color:#236e24">化</span><span style="width:13.21875px;color:#236e24">路</span><span style="width:13.21875px;color:#236e24">由</span></span></div>
+
+<div style="height:14px">&nbsp;&nbsp;&nbsp;&nbsp;<span>http</span><span>.</span><span>ListenAndServe</span><span>(</span><span style="color:#1a1aa6">":9999"</span><span>,</span>&nbsp;<span>mux</span><span>)</span>&nbsp;<span style="color:#236e24">//<span style="width:13.21875px;color:#236e24">这</span><span style="width:13.21875px;color:#236e24">里</span><span style="width:13.21875px;color:#236e24">代</span><span style="width:13.21875px;color:#236e24">理</span><span style="width:13.21875px;color:#236e24">给</span>mux<span style="width:13.21875px;color:#236e24">对</span><span style="width:13.21875px;color:#236e24">象</span><span style="width:13.21875px;color:#236e24">来</span><span style="width:13.21875px;color:#236e24">处</span><span style="width:13.21875px;color:#236e24">理</span>9999<span style="width:13.21875px;color:#236e24">端</span><span style="width:13.21875px;color:#236e24">口</span><span style="width:13.21875px;color:#236e24">请</span><span style="width:13.21875px;color:#236e24">求</span><span style="width:13.21875px;color:#236e24">，</span><span style="width:13.21875px;color:#236e24">会</span><span style="width:13.21875px;color:#236e24">调</span><span style="width:13.21875px;color:#236e24">用</span>mux.ServeHTTP<span style="width:13.21875px;color:#236e24">函</span><span style="width:13.21875px;color:#236e24">数</span><span style="width:13.21875px;color:#236e24">来</span><span style="width:13.21875px;color:#236e24">处</span><span style="width:13.21875px;color:#236e24">理</span></span></div>
+
+<div style="height:14px"></div>
+
+<div style="height:14px"><span>}</span></div>
+
+<div style="height:14px"></div>
+</div>
+
+<div>&nbsp;</div>
+启动该脚本后，使用浏览器访问以下：<br/>
+<span>http://localhost:9999/ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;输出: tests<br/>
+<span>http://localhost:9999/bbb &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;输出:111111<br/>
+http://localhost:9999/ccc &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 输出:333333<br/>
+</span></span>http://localhost:9999/img/a.png &nbsp; &nbsp; &nbsp; 输出图像a.png(如果有img/a.png)的话<br/>
+<span><br/>
+&nbsp;仔细阅读几遍，相信对GO语言的HTTP包路由设计有一个基本的了解，最终实现都是靠一个路由类的</span><span>ServeHTTP函数代理请求的处理和分发，为此我们可以随意定义URL的路由规则（只要你有对应代码来处理它），以及特殊请求的处理（上面静态文件是按照路径来处理，也可以通过文件名后缀处理等）。代码本身实现也是很简单，一般情况下只要自己设计的好，很容易实现一个WEB框架的核心路由器功能。</span><br/>
+</div>
+
+        </p>
+
+
+        
             <div id="thank-you" class="content-title">关于GO语言守护协程用法的基本思路</div>
             <p><div><br/>
 &nbsp;
