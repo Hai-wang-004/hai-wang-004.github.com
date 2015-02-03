@@ -189,6 +189,156 @@
 </div>
 </p>
             
+
+<div id="thank-you" class="content-title">go语言里冒号的用法</div>
+            <p>
+            <div>
+<div>&nbsp;<span>&nbsp;golang的冒号有一些特殊的用法，在某些地方能起到奇效</span></div>
+<br/>
+<span>一：最常见的变量初始化</span>
+<div style="background:#ffffff;padding:5px 5px 10px;color:#4d4d4c">
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">str</span><span style="color:#4d4d4c">:</span><span style="color:#3e999f">=</span><span style="color:#718c00">"abcde"</span></div>
+</div>
+
+<div>&nbsp;</div>
+二：字符串分割<br/>
+
+<div>&nbsp;</div>
+
+<div style="background:#ffffff;padding:5px 5px 10px;color:#4d4d4c">
+<div style="height:14px;color:#4d4d4c"><span style="color:#8959a8">package</span>&nbsp;<span style="color:#4d4d4c">main</span></div>
+
+<div style="height:14px;color:#4d4d4c"></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#8959a8">import</span>&nbsp;<span style="color:#718c00">"fmt"</span></div>
+
+<div style="height:14px;color:#4d4d4c"></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#8959a8">func</span>&nbsp;<span style="color:#4d4d4c">main</span><span style="color:#4d4d4c">(</span><span style="color:#4d4d4c">)</span>&nbsp;<span style="color:#4d4d4c">{</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">str</span>&nbsp;<span style="color:#4d4d4c">:</span><span style="color:#3e999f">=</span>&nbsp;<span style="color:#718c00">"abcde"</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8959a8">for</span>&nbsp;<span style="color:#4d4d4c">i</span>&nbsp;<span style="color:#4d4d4c">:</span><span style="color:#3e999f">=</span>&nbsp;<span style="color:#f5871f">0</span><span style="color:#4d4d4c">;</span>&nbsp;<span style="color:#4d4d4c">i</span>&nbsp;<span style="color:#3e999f">&lt;=</span>&nbsp;<span style="color:#4d4d4c">len</span><span style="color:#4d4d4c">(</span><span style="color:#4d4d4c">str</span><span style="color:#4d4d4c">)</span><span style="color:#4d4d4c">;</span>&nbsp;<span style="color:#4d4d4c">i</span><span style="color:#3e999f">++</span>&nbsp;<span style="color:#4d4d4c">{</span></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">fmt</span><span style="color:#4d4d4c">.</span><span style="color:#4d4d4c">Println</span><span style="color:#4d4d4c">(</span><span style="color:#718c00">"left&nbsp;is:"</span><span style="color:#4d4d4c">,</span>&nbsp;<span style="color:#4d4d4c">str</span><span style="color:#4d4d4c">[</span><span style="color:#4d4d4c">i</span><span style="color:#4d4d4c">:</span><span style="color:#4d4d4c">])</span></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">fmt</span><span style="color:#4d4d4c">.</span><span style="color:#4d4d4c">Println</span><span style="color:#4d4d4c">(</span><span style="color:#718c00">"right&nbsp;is:"</span><span style="color:#4d4d4c">,</span>&nbsp;<span style="color:#4d4d4c">str</span><span style="color:#4d4d4c">[</span><span style="color:#4d4d4c">:</span><span style="color:#4d4d4c">i</span><span style="color:#4d4d4c">])</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">}</span></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">}</span></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#8e908c">//output:</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">left</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="color:#4d4d4c">abcde</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">right</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;</div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">left</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="color:#4d4d4c">bcde</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">right</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="color:#4d4d4c">a</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">left</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="color:#4d4d4c">cde</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">right</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="color:#4d4d4c">ab</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">left</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="color:#4d4d4c">de</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">right</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="color:#4d4d4c">abc</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">left</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="color:#4d4d4c">e</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">right</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="color:#4d4d4c">abcd</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">left</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;</div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">right</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="color:#4d4d4c">abcde</span></div>
+</div>
+
+<div>&nbsp;</div>
+可以对照输出，理解:在这里处到字符串里第i个指针前/后的所有字符串的效果。<br/>
+很容易达成php的substr($str,0,$i)和substr($str,$i,count($str))的效果<br/>
+当然这里只对单个字符为一字节的字符串起效果，如果是多字节字符串尼？比如中文：<br/>
+
+<div>&nbsp;
+<div>&nbsp;</div>
+
+<div style="background:#ffffff;padding:5px 5px 10px;color:#4d4d4c">
+<div style="height:14px;color:#4d4d4c"><span style="color:#8959a8">package</span>&nbsp;<span style="color:#4d4d4c">main</span></div>
+
+<div style="height:14px;color:#4d4d4c"></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#8959a8">import</span>&nbsp;<span style="color:#718c00">"fmt"</span></div>
+
+<div style="height:14px;color:#4d4d4c"></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#8959a8">func</span>&nbsp;<span style="color:#4d4d4c">main</span><span style="color:#4d4d4c">(</span><span style="color:#4d4d4c">)</span>&nbsp;<span style="color:#4d4d4c">{</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">str</span>&nbsp;<span style="color:#4d4d4c">:</span><span style="color:#3e999f">=</span>&nbsp;<span style="color:#4d4d4c">[</span><span style="color:#4d4d4c">]</span><span style="color:#4d4d4c">rune</span><span style="color:#4d4d4c">(</span><span style="color:#718c00">"<span style="width:13.21875px;color:#718c00">这</span><span style="width:13.21875px;color:#718c00">是</span><span style="width:13.21875px;color:#718c00">一</span><span style="width:13.21875px;color:#718c00">个</span><span style="width:13.21875px;color:#718c00">测</span><span style="width:13.21875px;color:#718c00">试</span><span style="width:13.21875px;color:#718c00">字</span><span style="width:13.21875px;color:#718c00">符</span><span style="width:13.21875px;color:#718c00">串</span>"</span><span style="color:#4d4d4c">)</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#8959a8">for</span>&nbsp;<span style="color:#4d4d4c">i</span>&nbsp;<span style="color:#4d4d4c">:</span><span style="color:#3e999f">=</span>&nbsp;<span style="color:#f5871f">0</span><span style="color:#4d4d4c">;</span>&nbsp;<span style="color:#4d4d4c">i</span>&nbsp;<span style="color:#3e999f">&lt;=</span>&nbsp;<span style="color:#4d4d4c">len</span><span style="color:#4d4d4c">(</span><span style="color:#4d4d4c">str</span><span style="color:#4d4d4c">)</span><span style="color:#4d4d4c">;</span>&nbsp;<span style="color:#4d4d4c">i</span><span style="color:#3e999f">++</span>&nbsp;<span style="color:#4d4d4c">{</span></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">fmt</span><span style="color:#4d4d4c">.</span><span style="color:#4d4d4c">Println</span><span style="color:#4d4d4c">(</span><span style="color:#718c00">"left&nbsp;is:"</span><span style="color:#4d4d4c">,</span>&nbsp;<span style="color:#4d4d4c">string</span><span style="color:#4d4d4c">(</span><span style="color:#4d4d4c">str</span><span style="color:#4d4d4c">[</span><span style="color:#4d4d4c">i</span><span style="color:#4d4d4c">:</span><span style="color:#4d4d4c">]))</span></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">fmt</span><span style="color:#4d4d4c">.</span><span style="color:#4d4d4c">Println</span><span style="color:#4d4d4c">(</span><span style="color:#718c00">"right&nbsp;is:"</span><span style="color:#4d4d4c">,</span>&nbsp;<span style="color:#4d4d4c">string</span><span style="color:#4d4d4c">(</span><span style="color:#4d4d4c">str</span><span style="color:#4d4d4c">[</span><span style="color:#4d4d4c">:</span><span style="color:#4d4d4c">i</span><span style="color:#4d4d4c">]))</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">}</span></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">}</span></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#8e908c">//output</span></div>
+
+<div style="height:14px;color:#4d4d4c"><span style="color:#4d4d4c">left</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="width:13.21875px;color:#4d4d4c">这</span><span style="width:13.21875px;color:#4d4d4c">是</span><span style="width:13.21875px;color:#4d4d4c">一</span><span style="width:13.21875px;color:#4d4d4c">个</span><span style="width:13.21875px;color:#4d4d4c">测</span><span style="width:13.21875px;color:#4d4d4c">试</span><span style="width:13.21875px;color:#4d4d4c">字</span><span style="width:13.21875px;color:#4d4d4c">符</span><span style="width:13.21875px;color:#4d4d4c">串</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">right</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;</div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">left</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="width:13.21875px;color:#4d4d4c">是</span><span style="width:13.21875px;color:#4d4d4c">一</span><span style="width:13.21875px;color:#4d4d4c">个</span><span style="width:13.21875px;color:#4d4d4c">测</span><span style="width:13.21875px;color:#4d4d4c">试</span><span style="width:13.21875px;color:#4d4d4c">字</span><span style="width:13.21875px;color:#4d4d4c">符</span><span style="width:13.21875px;color:#4d4d4c">串</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">right</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="width:13.21875px;color:#4d4d4c">这</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">left</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="width:13.21875px;color:#4d4d4c">一</span><span style="width:13.21875px;color:#4d4d4c">个</span><span style="width:13.21875px;color:#4d4d4c">测</span><span style="width:13.21875px;color:#4d4d4c">试</span><span style="width:13.21875px;color:#4d4d4c">字</span><span style="width:13.21875px;color:#4d4d4c">符</span><span style="width:13.21875px;color:#4d4d4c">串</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">right</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="width:13.21875px;color:#4d4d4c">这</span><span style="width:13.21875px;color:#4d4d4c">是</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">left</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="width:13.21875px;color:#4d4d4c">个</span><span style="width:13.21875px;color:#4d4d4c">测</span><span style="width:13.21875px;color:#4d4d4c">试</span><span style="width:13.21875px;color:#4d4d4c">字</span><span style="width:13.21875px;color:#4d4d4c">符</span><span style="width:13.21875px;color:#4d4d4c">串</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">right</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="width:13.21875px;color:#4d4d4c">这</span><span style="width:13.21875px;color:#4d4d4c">是</span><span style="width:13.21875px;color:#4d4d4c">一</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">left</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="width:13.21875px;color:#4d4d4c">测</span><span style="width:13.21875px;color:#4d4d4c">试</span><span style="width:13.21875px;color:#4d4d4c">字</span><span style="width:13.21875px;color:#4d4d4c">符</span><span style="width:13.21875px;color:#4d4d4c">串</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">right</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="width:13.21875px;color:#4d4d4c">这</span><span style="width:13.21875px;color:#4d4d4c">是</span><span style="width:13.21875px;color:#4d4d4c">一</span><span style="width:13.21875px;color:#4d4d4c">个</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">left</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="width:13.21875px;color:#4d4d4c">试</span><span style="width:13.21875px;color:#4d4d4c">字</span><span style="width:13.21875px;color:#4d4d4c">符</span><span style="width:13.21875px;color:#4d4d4c">串</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">right</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="width:13.21875px;color:#4d4d4c">这</span><span style="width:13.21875px;color:#4d4d4c">是</span><span style="width:13.21875px;color:#4d4d4c">一</span><span style="width:13.21875px;color:#4d4d4c">个</span><span style="width:13.21875px;color:#4d4d4c">测</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">left</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="width:13.21875px;color:#4d4d4c">字</span><span style="width:13.21875px;color:#4d4d4c">符</span><span style="width:13.21875px;color:#4d4d4c">串</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">right</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="width:13.21875px;color:#4d4d4c">这</span><span style="width:13.21875px;color:#4d4d4c">是</span><span style="width:13.21875px;color:#4d4d4c">一</span><span style="width:13.21875px;color:#4d4d4c">个</span><span style="width:13.21875px;color:#4d4d4c">测</span><span style="width:13.21875px;color:#4d4d4c">试</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">left</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="width:13.21875px;color:#4d4d4c">符</span><span style="width:13.21875px;color:#4d4d4c">串</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">right</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="width:13.21875px;color:#4d4d4c">这</span><span style="width:13.21875px;color:#4d4d4c">是</span><span style="width:13.21875px;color:#4d4d4c">一</span><span style="width:13.21875px;color:#4d4d4c">个</span><span style="width:13.21875px;color:#4d4d4c">测</span><span style="width:13.21875px;color:#4d4d4c">试</span><span style="width:13.21875px;color:#4d4d4c">字</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">left</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="width:13.21875px;color:#4d4d4c">串</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">right</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="width:13.21875px;color:#4d4d4c">这</span><span style="width:13.21875px;color:#4d4d4c">是</span><span style="width:13.21875px;color:#4d4d4c">一</span><span style="width:13.21875px;color:#4d4d4c">个</span><span style="width:13.21875px;color:#4d4d4c">测</span><span style="width:13.21875px;color:#4d4d4c">试</span><span style="width:13.21875px;color:#4d4d4c">字</span><span style="width:13.21875px;color:#4d4d4c">符</span></div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">left</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;</div>
+
+<div style="height:14px;color:#4d4d4c">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4d4d4c">right</span>&nbsp;<span style="color:#4d4d4c">is</span><span style="color:#4d4d4c">:</span>&nbsp;<span style="width:13.21875px;color:#4d4d4c">这</span><span style="width:13.21875px;color:#4d4d4c">是</span><span style="width:13.21875px;color:#4d4d4c">一</span><span style="width:13.21875px;color:#4d4d4c">个</span><span style="width:13.21875px;color:#4d4d4c">测</span><span style="width:13.21875px;color:#4d4d4c">试</span><span style="width:13.21875px;color:#4d4d4c">字</span><span style="width:13.21875px;color:#4d4d4c">符</span><span style="width:13.21875px;color:#4d4d4c">串</span></div>
+</div>
+
+<div>&nbsp;</div>
+</div>
+
+<div>&nbsp;</div>
+使用rune类型就很容易得到需要的效果<br/>
+<span>&nbsp;</span><br/>
+</div>
+
+            </p>
+
     </div>
 </body>
 </html>
